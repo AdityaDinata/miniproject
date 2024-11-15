@@ -74,6 +74,7 @@ const LandingPengguna = () => {
       habit_name: habit,         // Habit name
       id: (index + 1).toString(),  // Generate a simple unique ID
       userId: userId,             // Use the logged-in user ID
+      status: "belum selesai",     // Automatically set status to 'belum selesai'
     }));
 
     // Log the prepared habits to check their structure
