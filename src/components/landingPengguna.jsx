@@ -28,7 +28,7 @@ const LandingPengguna = () => {
   // Handle the form submission
   const handleSubmitHabit = async (e) => {
     e.preventDefault();
-    const prompt = `Berikan 5 rekomendasi gaya hidup sehat yang dapat diterapkan berdasarkan hal-hal berikut: ${habit}. Berikan setiap rekomendasi pada satu baris terpisah tanpa no.`;
+    const prompt = `Berikan 5 rekomendasi gaya hidup sehat dan ramah lingkungan yang dapat diterapkan berdasarkan hal-hal berikut: ${habit}. Berikan setiap rekomendasi pada satu baris terpisah tanpa no.`;
 
     try {
       // Call Gemini AI to generate recommendations
@@ -144,7 +144,7 @@ const LandingPengguna = () => {
             </h3>
             <div className="text-gray-700 mb-4">
               <p>
-                Berikut adalah beberapa rekomendasi gaya hidup sehat yang dapat diterapkan berdasarkan kebiasaan yang Anda masukkan:
+                Berikut adalah beberapa rekomendasi gaya hidup sehat dan ramah lingkungan yang dapat diterapkan berdasarkan kebiasaan yang Anda masukkan:
               </p>
               <ul className="list-disc ml-6">
                 {recommendations.slice(0, 5).map((rec, index) => (
