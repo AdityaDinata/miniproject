@@ -1,49 +1,35 @@
-import { useState } from "react";
+// src/components/auth/RegisterPage.jsx
+import React, { useState } from "react";
 import { Button, TextInput } from 'flowbite-react';
+import { useNavigate, Link } from 'react-router-dom';
+import { registerUser } from "../../services/api";
 
-function RegisterPage() {
+const RegisterPage = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Check if passwords match
+    // Validasi password
     if (password !== confirmPassword) {
-      setError('Passwords do not match');
+      setError('Password tidak cocok');
       return;
     }
 
-    setError(''); // Reset error message
+    setError('');
 
     try {
-      // Prepare user data
-      const newUser = {
-        name,
-        email,
-        password,
-      };
-
-      // Send POST request to API
-      const response = await fetch('https://673617b15995834c8a9565e6.mockapi.io/users', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newUser),
-      });
-
-      if (response.ok) {
-        console.log('Registration successful');
-        // Redirect to login page or show success message
-      } else {
-        setError('Registration failed');
-      }
+      const newUser = { name, email, password };
+      await registerUser(newUser);
+      alert('Registrasi berhasil! Silakan login.');
+      navigate('/login');
     } catch (error) {
-      setError('An error occurred during registration');
+      setError('Terjadi kesalahan saat registrasi');
     }
   };
 
@@ -51,7 +37,7 @@ function RegisterPage() {
     <div className="min-h-screen bg-gradient-to-b from-green-300 to-green-500 flex items-center justify-center">
       <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-lg">
         <h2 className="text-2xl font-semibold text-center text-gray-800 mb-6">
-          Register for Habit Tracker
+          Register untuk Habit Tracker
         </h2>
         
         <form onSubmit={handleSubmit}>
@@ -60,7 +46,7 @@ function RegisterPage() {
             <TextInput
               id="name"
               type="text"
-              placeholder="Your full name"
+              placeholder="Nama lengkap Anda"
               required
               value={name}
               onChange={(e) => setName(e.target.value)}
@@ -111,11 +97,11 @@ function RegisterPage() {
         </form>
 
         <p className="mt-4 text-center text-gray-600">
-          Already have an account? <a href="/login" className="text-blue-500">Login</a>
+          Sudah memiliki akun? <Link to="/login" className="text-blue-500">Login</Link>
         </p>
       </div>
     </div>
   );
-}
+};
 
 export default RegisterPage;

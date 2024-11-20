@@ -1,39 +1,37 @@
-import { useState } from "react";
+// src/components/auth/LoginPage.jsx
+import React, { useState } from "react";
 import { Button, TextInput, Spinner } from 'flowbite-react';
-import { useNavigate } from 'react-router-dom'; // For navigation
+import { useNavigate, Link } from 'react-router-dom';
+import useAuth from "../../hooks/useAuth";
+import { fetchUsers } from "../../services/api";
 
-function LoginPage() {
+const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false); // New state for loading
+  const [loading, setLoading] = useState(false);
+  const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-    setLoading(true); // Set loading to true
+    setLoading(true);
 
     try {
-      const response = await fetch('https://673617b15995834c8a9565e6.mockapi.io/users');
-      if (!response.ok) {
-        throw new Error('Failed to fetch users');
-      }
-
-      const users = await response.json();
+      const users = await fetchUsers();
       const user = users.find(user => user.email === email && user.password === password);
 
       if (user) {
-        localStorage.setItem('isLoggedIn', 'true');
-        localStorage.setItem('userId', user.id); 
+        login(user);
         navigate('/');
       } else {
-        setError('Invalid email or password');
+        setError('Email atau password tidak valid');
       }
     } catch (error) {
-      setError('An error occurred during login');
+      setError('Terjadi kesalahan saat login');
     } finally {
-      setLoading(false); // Stop loading after request is done
+      setLoading(false);
     }
   };
 
@@ -41,7 +39,7 @@ function LoginPage() {
     <div className="min-h-screen bg-gradient-to-b from-green-300 to-green-500 flex items-center justify-center">
       <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-lg">
         <h2 className="text-2xl font-semibold text-center text-gray-800 mb-6">
-          Login to Eco Smart
+          Login ke Eco Smart
         </h2>
 
         <form onSubmit={handleSubmit}>
@@ -81,11 +79,11 @@ function LoginPage() {
         </form>
 
         <p className="mt-4 text-center text-gray-600">
-          tidak memiliki akun? <a href="/signup" className="text-blue-500">Sign up</a>
+          Tidak memiliki akun? <Link to="/register" className="text-blue-500">Sign up</Link>
         </p>
       </div>
     </div>
   );
-}
+};
 
 export default LoginPage;
