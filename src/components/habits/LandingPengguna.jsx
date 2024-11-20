@@ -1,6 +1,5 @@
-// src/components/habits/LandingPengguna.jsx
 import React, { useState } from "react";
-import { Button, TextInput, Spinner } from 'flowbite-react';
+import { Button, TextInput, Spinner } from "flowbite-react";
 import { useNavigate } from "react-router-dom";
 import useHabits from "../../hooks/useHabits";
 import { generateRecommendations } from "../../services/ai";
@@ -77,12 +76,12 @@ const LandingPengguna = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-green-300 to-green-500">
       <AppNavbar />
-      <div className="flex flex-col items-center justify-center text-center py-10">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-6">
+      <div className="flex flex-col items-center justify-center text-center py-10 px-4">
+        <h2 className="text-3xl font-bold text-gray-800 mb-6">
           Masukkan Kebiasaan Anda
         </h2>
 
-        <form onSubmit={handleSubmitHabit} className="w-full max-w-md">
+        <form onSubmit={handleSubmitHabit} className="w-full max-w-lg bg-white p-6 rounded-lg shadow-md">
           <TextInput
             id="habit"
             type="text"
@@ -92,41 +91,43 @@ const LandingPengguna = () => {
             onChange={(e) => setHabit(e.target.value)}
             className="mb-4"
           />
-          <Button type="submit" className="w-full bg-blue-500 hover:bg-blue-600" disabled={loading}>
-            {loading ? <Spinner size="sm" light={true} /> : 'Dapatkan Rekomendasi'}
+          <Button type="submit" className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2" disabled={loading}>
+            {loading ? <Spinner size="sm" light={true} /> : "Dapatkan Rekomendasi"}
           </Button>
         </form>
 
-        {error && <p className="text-red-500 mt-4">{error}</p>}
+        {error && <p className="text-red-600 mt-4">{error}</p>}
 
         {recommendations.length > 0 && (
-          <div className="mt-6 w-full max-w-2xl">
+          <div className="mt-8 w-full max-w-2xl bg-white p-6 rounded-lg shadow-md">
             <h3 className="text-xl font-semibold text-gray-800 mb-4">
               Rekomendasi Kebiasaan
             </h3>
-            <ul className="list-disc ml-6 text-gray-700">
+            <ul className="space-y-2">
               {recommendations.slice(0, 5).map((rec, index) => (
-                <li key={index} className="flex items-center">
+                <li key={index} className="flex items-center bg-gray-100 p-3 rounded-md shadow-sm">
                   <input
                     type="checkbox"
                     id={`habit-${index}`}
                     value={rec}
                     onChange={handleSelectHabit}
-                    className="mr-2"
+                    className="mr-3"
                   />
+                  <label htmlFor={`habit-${index}`} className="text-gray-700">{rec}</label>
                 </li>
               ))}
             </ul>
             <Button
-              className="w-full bg-green-500 hover:bg-green-600 mt-4"
+              className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-2 mt-4"
               onClick={saveSelectedHabitsToAPI}
               disabled={loading}
             >
-              {loading ? <Spinner size="sm" light={true} /> : 'Konfirmasi Kebiasaan Terpilih'}
+              {loading ? <Spinner size="sm" light={true} /> : "Konfirmasi Kebiasaan Terpilih"}
             </Button>
           </div>
         )}
       </div>
+
     </div>
   );
 };
