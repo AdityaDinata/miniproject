@@ -180,12 +180,20 @@ const SelectedHabitsPage = () => {
                 ))}
               </Table.Body>
             </Table>
-            <Button
-              className="mt-6 bg-green-500 text-white"
-              onClick={markAsCompleted}
-            >
-              Tandai Selesai
-            </Button>
+            <div className="flex justify-between mt-6">
+              <Button
+                className="bg-green-500 text-white"
+                onClick={markAsCompleted}
+              >
+                Tandai Selesai
+              </Button>
+              <Button
+                className="bg-blue-500 text-white"
+                onClick={() => navigate("/landing-pengguna")}
+              >
+                Tambah Kebiasaan
+              </Button>
+            </div>
           </div>
         ) : (
           <p>Tidak ada kebiasaan yang dipilih.</p>
@@ -210,6 +218,7 @@ const SelectedHabitsPage = () => {
           </Modal>
         )}
       </div>
+
     </div>
   );
 };
